@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,27 +18,19 @@ namespace _02.Average_Student_Grades
                 string[] studentAndGrade = Console.ReadLine().Split().ToArray();
                 decimal grade = decimal.Parse(studentAndGrade[1]);
 
-                if (students.ContainsKey(studentAndGrade[0]))
+                if (!students.ContainsKey(studentAndGrade[0]))
                 {
-                    students[studentAndGrade[0]].Add(grade);
+                    students.Add(studentAndGrade[0], new List<decimal>() { grade });
                 }
                 else
                 {
-                    students.Add(studentAndGrade[0], new List<decimal>() { grade });
+                    students[studentAndGrade[0]].Add(grade);
                 }
             }
 
             foreach (var student in students)
             {
-                decimal averageGradePerStudent = default; ;
-                for (int i = 0; i < student.Value.Count; i++)
-                {
-                    averageGradePerStudent += student.Value[i];
-                }
-
-                averageGradePerStudent /= student.Value.Count;
-
-                Console.WriteLine($"{student.Key} -> {String.Join(" ", student.Value):f2} (avg: {averageGradePerStudent:f2})");
+                Console.WriteLine($"{student.Key} -> {string.Join(" ", student.Value.Select(grade => grade.ToString("F2")))} (avg: {student.Value.Average():f2})");
             }
         }
     }
